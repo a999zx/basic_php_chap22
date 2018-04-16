@@ -1,7 +1,7 @@
-Perfect PHP 学習用仮想環境
+基礎からのPHP chapter22 画像掲示板 改良版
 ====
 
-パーフェクトPHPの学習用環境をVagrantを使って手軽に作成するのが目的
+を作成。
 
 ## Description
 構成は以下

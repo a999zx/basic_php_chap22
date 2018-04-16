@@ -10,8 +10,8 @@ setcookie("gz_date", date("Y年m月d日H時i分s秒"), time() + 60*60*24*365);
 </head>
 <body>
 <p>ここは管理者のページです</p>
-<p><a href='/?page=gz_logoff'>ログオフ</a></p>
-<form action='/?page=gz_admin_op' method='post'>
+<p><a href='/?fn=gz_logoff'>ログオフ</a></p>
+<form action='/?fn=gz_admin_op' method='post'>
 <?php
 $ps = $db->query("SELECT * FROM table1 ORDER BY ban DESC");
 while ($r = $ps->fetch()) {
@@ -31,11 +31,11 @@ while ($r = $ps->fetch()) {
     if ($to == 0) print " checked='checked'";
     print ">非公開<br>
     {$r['ban']}【投稿者:{$r['nam']}】{$r['dat']}
-    <p class='iine'><a href='/?page=gz_iine&tran_b=$tb'>イイネ！</a>
+    <p class='iine'><a href='/?fn=gz_iine&tran_b=$tb'>イイネ！</a>
     ($count_iine):$ii</p><br>"
     . nl2br($r['mes']) . "<br>
     <a href='/img/$tg' target='_blank'><img src='/img/thumb_$tg'></a><br>
-    <p class='com'><a href='/?page=gz_com&sn=$tb'>コメントするときはここをクリック</a></p>";
+    <p class='com'><a href='/?fn=gz_com&sn=$tb'>コメントするときはここをクリック</a></p>";
     $ps_com = $db->query("SELECT * FROM table3 WHERE ban = $tb");
     $count = 1;
     while ($r_com = $ps_com->fetch()) {
@@ -50,9 +50,9 @@ while ($r = $ps->fetch()) {
 
 <input type='submit' value='公開・非公開の送信'>
 </form>
-<p><a href='/?page=gz_up'>画像をアップロードするときはここ</a></p>
-<p><a href='/?page=gz'>通常画面に戻る</a></p>
-<p><a href='/?page=gz_logoff'>ログオフ</a></p>
+<p><a href='/?fn=gz_up'>画像をアップロードするときはここ</a></p>
+<p><a href='/?fn=gz'>通常画面に戻る</a></p>
+<p><a href='/?fn=gz_logoff'>ログオフ</a></p>
 
 </body>
 </html>

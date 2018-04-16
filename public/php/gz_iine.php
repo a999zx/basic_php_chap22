@@ -1,5 +1,6 @@
 <?php
-$b = $_GET['tran_b'];
+$b = htmlspecialchars($_GET['tran_b'], ENT_QUOTES);
+$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
 ?>
 
 <html>
@@ -12,7 +13,7 @@ $b = $_GET['tran_b'];
 <?php
 print "<p>{$b}番の投稿に<u>イイネ！</u>と言いました</p>
        名前を入力してください<br>
-       <form action='/?fn=gz_iine_set' method='post'>
+       <form action='/?fn=gz_iine_set&page={$page}' method='post'>
        名前<br>
        <input type='text' name='myn' value='{$_SESSION['us']}'><br>
        <input type='hidden' name='myb' value='$b'>

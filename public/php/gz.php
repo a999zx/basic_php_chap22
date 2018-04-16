@@ -16,7 +16,11 @@ setcookie("gz_date", date("Y年m月d日H時i分s秒"), time() + 60*60*24*365);
     <p class='iine'>（よかったら<u>イイネ！</u>を押してください）</p>
 
 <?php
-$ps = $db->query("SELECT * FROM table1 WHERE ope = 1 ORDER BY ban DESC");
+require_once($pager_path . DIRECTORY_SEPARATOR . "pager_init.php");
+
+print_pager($page, $all_pages, $visible_pages);
+
+$ps = $db->query("SELECT * FROM table1 WHERE ope = 1 ORDER BY ban DESC LIMIT $start, $contents");
 while ($r = $ps->fetch()) {
     $tg = $r['gaz'];
     $tb = $r['ban'];
@@ -29,11 +33,11 @@ while ($r = $ps->fetch()) {
     }
     print "<div id='box'>
     {$r['ban']}【投稿者:{$r['nam']}】{$r['dat']}
-    <p class='iine'><a href='/?fn=gz_iine&tran_b=$tb'>イイネ！</a>
+    <p class='iine'><a href='/?fn=gz_iine&page={$page}&tran_b={$tb}'>イイネ！</a>
     ($count_iine):$ii</p><br>"
     . nl2br($r['mes']) . "<br>
     <a href='/img/$tg' target='_blank'><img src='/img/thumb_$tg'></a><br>
-    <p class='com'><a href='/?fn=gz_com&sn=$tb'>コメントするときはここをクリック</a></p>";
+    <p class='com'><a href='/?fn=gz_com&page={$page}&sn={$tb}'>コメントするときはここをクリック</a></p>";
     $ps_com = $db->query("SELECT * FROM table3 WHERE ban = $tb");
     $count = 1;
     while ($r_com = $ps_com->fetch()) {
@@ -45,8 +49,10 @@ while ($r = $ps->fetch()) {
     print "</div>";
 }
 
+print_pager($page, $all_pages, $visible_pages);
+
 print "</div><div id='hidari'>
-<a href='/?fn=gz_up'>画像をアップロードするときはここ</a>
+<a href='/?fn=gz_up&page={$page}'>画像をアップロードするときはここ</a>
 <p><a href='/?fn=gz_logoff.php'>ログオフ</a></p></div>";
 ?>
 </body>

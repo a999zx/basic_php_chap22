@@ -1,6 +1,7 @@
 <?php
 $b = htmlspecialchars($_POST['myb'], ENT_QUOTES);
 $n = htmlspecialchars($_POST['myn'], ENT_QUOTES);
+$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
 ?>
 <html>
 <head>
@@ -15,7 +16,7 @@ $ps->bindParam(1, $b);
 $ps->bindParam(2, $n);
 $ps->execute();
 print "<p>{$n}さんが「イイネ！」と言いました<br>
-       <a href='/?fn=gz'>一覧表示に戻る</a></p>";
+       <a href='/?fn=gz&page={$page}'>一覧表示に戻る</a></p>";
 ?>
 
 </body>

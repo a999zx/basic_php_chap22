@@ -2,7 +2,7 @@
 <head>
     <meta charset='utf-8'>
     <title>たび写真館ログオン</title>
-    <link rel='stylesheet' href='gz_style_file.css' type='text/css'>
+    <link rel='stylesheet' href='/css/gz_style_file.css' type='text/css'>
 </head>
 <body style='background-color:lightblue'>
     <p class='title_pink'>たび写真館</p>

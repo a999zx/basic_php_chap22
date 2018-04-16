@@ -1,6 +1,7 @@
 <?php
 setcookie("gz_user", $_SESSION["us"], time() + 60*60*24*365);
 setcookie("gz_date", date("Y年m月d日H時i分s秒"), time() + 60*60*24*365);
+require_once($pager_path . DIRECTORY_SEPARATOR . "pager_init.php");
 ?>
 <html>
 <head>
@@ -11,9 +12,11 @@ setcookie("gz_date", date("Y年m月d日H時i分s秒"), time() + 60*60*24*365);
 <body>
 <p>ここは管理者のページです</p>
 <p><a href='/?fn=gz_logoff'>ログオフ</a></p>
-<form action='/?fn=gz_admin_op' method='post'>
+<form action='/?fn=gz_admin_op&page=<?php print $page; ?>' method='post'>
 <?php
-$ps = $db->query("SELECT * FROM table1 ORDER BY ban DESC");
+print_pager($page, $all_pages, $visible_pages);
+
+$ps = $db->query("SELECT * FROM table1 ORDER BY ban DESC LIMIT $start, $contents");
 while ($r = $ps->fetch()) {
     $tg = $r['gaz'];
     $tb = $r['ban'];
@@ -31,11 +34,11 @@ while ($r = $ps->fetch()) {
     if ($to == 0) print " checked='checked'";
     print ">非公開<br>
     {$r['ban']}【投稿者:{$r['nam']}】{$r['dat']}
-    <p class='iine'><a href='/?fn=gz_iine&tran_b=$tb'>イイネ！</a>
+    <p class='iine'><a href='/?fn=gz_iine&page={$page}&tran_b={$tb}'>イイネ！</a>
     ($count_iine):$ii</p><br>"
     . nl2br($r['mes']) . "<br>
     <a href='/img/$tg' target='_blank'><img src='/img/thumb_$tg'></a><br>
-    <p class='com'><a href='/?fn=gz_com&sn=$tb'>コメントするときはここをクリック</a></p>";
+    <p class='com'><a href='/?fn=gz_com&page={$page}&sn={$tb}'>コメントするときはここをクリック</a></p>";
     $ps_com = $db->query("SELECT * FROM table3 WHERE ban = $tb");
     $count = 1;
     while ($r_com = $ps_com->fetch()) {
@@ -50,8 +53,11 @@ while ($r = $ps->fetch()) {
 
 <input type='submit' value='公開・非公開の送信'>
 </form>
+
+<?php print_pager($page, $all_pages, $visible_pages); ?>
+
 <p><a href='/?fn=gz_up'>画像をアップロードするときはここ</a></p>
-<p><a href='/?fn=gz'>通常画面に戻る</a></p>
+<p><a href='/?fn=gz&page=<?php print $page; ?>'>通常画面に戻る</a></p>
 <p><a href='/?fn=gz_logoff'>ログオフ</a></p>
 
 </body>

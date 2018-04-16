@@ -2,6 +2,7 @@
 $n = htmlspecialchars($_POST['myn'], ENT_QUOTES);
 $c = htmlspecialchars($_POST['myc'], ENT_QUOTES);
 $b = htmlspecialchars($_POST['myb'], ENT_QUOTES);
+$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
 ?>
 
 <html>
@@ -15,7 +16,7 @@ $b = htmlspecialchars($_POST['myb'], ENT_QUOTES);
 print "<p>{$n}さんは次のようにコメントを書き込みました</p>
 <p>【コメント】<br>"
 . nl2br($c) . "</p>
-<a href='/?fn=gz'>一覧表示に戻ります</a>";
+<a href='/?fn=gz&page={$page}'>一覧表示に戻ります</a>";
 
 $ima = date("YmhHis");
 $ps = $db->prepare("INSERT INTO table3 (ban, com, nam, dat) VALUES (?, ?, ?, ?)");

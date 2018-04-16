@@ -2,4 +2,4 @@
 $SERV = "localhost";
 $USER = "root";
 $PASS = "";
-$DBNM = "db";
+$DBNM = "db_test260000";

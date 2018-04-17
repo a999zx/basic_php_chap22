@@ -17,11 +17,22 @@ setcookie("gz_date", date("Y年m月d日H時i分s秒"), time() + 60*60*24*365);
 
 <?php
 require_once($pager_path . DIRECTORY_SEPARATOR . "pager_init.php");
+require_once($pager_path . DIRECTORY_SEPARATOR . "pager_printer.php");
+require_once($pager_path . DIRECTORY_SEPARATOR . "PagerWithPdo.php");
 
-print_pager($page, $all_pages, $visible_pages);
+PagerWithPdo::setConnection("localhost", "db_test3", "root", "");
+$db = PagerWithPdo::getConnection();
 
-$ps = $db->query("SELECT * FROM table1 WHERE ope = 1 ORDER BY ban DESC LIMIT $start, $contents");
-$conts = $ps->fetchAll();
+// 総データ数取得
+$ps = $db->query("SELECT COUNT(*) AS n FROM table1 WHERE ope = 1");
+$all_contents = $ps->fetch()["n"];
+
+$pwp = new PagerWithPdo();
+$pwp->select("SELECT * FROM table1 WHERE ope = 1", $page, $row_count, $all_contents);
+$pager = $pwp->getPager($visible_pages);
+print_pager($pager["now"], $pager["all_pages"], $visible_pages);
+
+$conts = $pager["pdos"]->fetchAll();
 $ps_ii = $db->query("SELECT DISTINCT * FROM table4
                      WHERE " . reset($conts)["ban"] . " >= ban
                      and ban >= " . end($conts)["ban"] . " ORDER BY ban DESC");
@@ -63,7 +74,7 @@ foreach ($conts as $r) {
     print "</div>";
 }
 
-print_pager($page, $all_pages, $visible_pages);
+print_pager($pager["now"], $pager["all_pages"], $visible_pages);
 
 print "</div><div id='hidari'>
 <a href='/?fn=gz_up&page={$page}'>画像をアップロードするときはここ</a>

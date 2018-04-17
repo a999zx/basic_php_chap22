@@ -5,7 +5,8 @@
 </head>
 <body>
 <?php
-$n = $db->exec("UPDATE table1 SET ope = 1");
+require($pager_path . DIRECTORY_SEPARATOR . "pager_init.php");
+$n = $db->exec("UPDATE table1 SET ope = 1 FROM table1 ORDER BY ban DESC LIMIT $start, $contents");
 foreach ($_POST['check'] as $a => $b) {
     $n = $db->exec("UPDATE table1 SET ope = 0 WHERE ban = $b");
     print "{$b}は非公開です<br>";

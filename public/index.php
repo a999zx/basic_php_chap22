@@ -9,7 +9,8 @@ $img_path = $rdir . DIRECTORY_SEPARATOR . "img";
 $pager_path = $rdir . DIRECTORY_SEPARATOR . "pager";
 require($db_path . DIRECTORY_SEPARATOR . "db_init.php"); // データベースの設定
 
-$fn = htmlspecialchars($_GET["fn"], ENT_QUOTES);
+$fn = htmlspecialchars($_GET["fn"], ENT_QUOTES); // ファイル(.php)の名前
+$page = htmlspecialchars($_GET["page"], ENT_QUOTES); // ページャ用現在ページ
 $request_uri = htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES);
 $phpfilelist = array_map("basename", glob($php_path . DIRECTORY_SEPARATOR . "*.php"));
 if (($request_uri != "/" && !preg_match("/\/\?fn=.*/", $request_uri)) // 不正なURLを除外

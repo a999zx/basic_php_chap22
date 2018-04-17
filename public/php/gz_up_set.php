@@ -6,8 +6,6 @@
 <body style='background-color:khaki'>
 
 <?php
-$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
-
 $file = $_FILES['myf'];
 $file_ext = strtolower(mb_strrchr($file['name'], '.', FALSE));
 if ($_POST['myn'] <> "" && $_POST['mym'] <> "" && $file['size'] > 0

@@ -1,6 +1,3 @@
-<?php
-$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
-?>
 <html>
 <head>
     <meta charset=utf-8>

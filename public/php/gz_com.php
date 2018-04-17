@@ -1,6 +1,5 @@
 <?php
 $u = htmlspecialchars($_GET['sn'], ENT_QUOTES);
-$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
 ?>
 
 <html>

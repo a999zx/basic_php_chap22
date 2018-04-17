@@ -1,7 +1,6 @@
 <?php
 $b = htmlspecialchars($_POST['myb'], ENT_QUOTES);
 $n = htmlspecialchars($_POST['myn'], ENT_QUOTES);
-$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
 ?>
 <html>
 <head>

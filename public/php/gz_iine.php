@@ -1,6 +1,5 @@
 <?php
 $b = htmlspecialchars($_GET['tran_b'], ENT_QUOTES);
-$page = htmlspecialchars($_GET['page'], ENT_QUOTES);
 ?>
 
 <html>

@@ -21,16 +21,31 @@ require_once($pager_path . DIRECTORY_SEPARATOR . "pager_init.php");
 print_pager($page, $all_pages, $visible_pages);
 
 $ps = $db->query("SELECT * FROM table1 WHERE ope = 1 ORDER BY ban DESC LIMIT $start, $contents");
-while ($r = $ps->fetch()) {
+$conts = $ps->fetchAll();
+// $ps_end = $db->query("SELECT * FROM table1 WHERE ope = 1 ORDER BY ban DESC LIMIT " . ($start + $contents) .", 1");
+$ps_ii = $db->query("SELECT DISTINCT * FROM table4
+                     WHERE {$conts[0]["ban"]} >= ban
+                     and ban >= {$conts[$contents - 1]["ban"]} ORDER BY ban DESC");
+foreach ($conts as $r) {
     $tg = $r['gaz'];
     $tb = $r['ban'];
     $ii = null;
-    $ps_ii = $db->query("SELECT DISTINCT * FROM table4 WHERE ban = $tb");
     $count_iine = 0;
-    while ($r_ii = $ps_ii->fetch()) {
-        $ii = "$ii {$r_ii['nam']}";
+    if (isset($r_tmp) && $r_tmp["ban"] == $tb) {
+        $ii = "$ii {$r_tmp['nam']}";
         $count_iine++;
     }
+    if (!isset($r_tmp) || $r_tmp["ban"] >= $tb) {
+        while ($r_ii = $ps_ii->fetch()) {
+            if ($r_ii["ban"] == $tb) {
+                $ii = "$ii {$r_ii['nam']}";
+                $count_iine++;
+            } else if ($r_ii["ban"] > $tb) continue;
+            else break;
+        }
+    }
+    $r_tmp = $r_ii;
+
     print "<div id='box'>
     {$r['ban']}【投稿者:{$r['nam']}】{$r['dat']}
     <p class='iine'><a href='/?fn=gz_iine&page={$page}&tran_b={$tb}'>イイネ！</a>
@@ -53,7 +68,7 @@ print_pager($page, $all_pages, $visible_pages);
 
 print "</div><div id='hidari'>
 <a href='/?fn=gz_up&page={$page}'>画像をアップロードするときはここ</a>
-<p><a href='/?fn=gz_logoff.php'>ログオフ</a></p></div>";
+<p><a href='/?fn=gz_logoff'>ログオフ</a></p></div>";
 ?>
 </body>
 </html>

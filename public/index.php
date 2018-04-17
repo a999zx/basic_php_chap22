@@ -18,20 +18,16 @@ if (($request_uri != "/" && !preg_match("/\/\?fn=.*/", $request_uri)) // 不正�
     || (preg_match("/gz_admin*/", $fn) && $_SESSION["us"] !== "admin")) { // 管理者以外の管理ページへのアクセスを除外
     print "<p>ページが存在しません。<br>
            <a href='/?fn=gz_logon'>ログイン</a></p>";
-} else if ($fn == "") { // デフォルトはログイン画面
+} else if ($fn == "" || $fn == "gz_logon") { // デフォルトはログイン画面
     require($php_path . DIRECTORY_SEPARATOR . "gz_logon.php");
+} else if ($fn == "gz_logon2" || $fn == "gz_logoff") {
+    require($php_path . DIRECTORY_SEPARATOR . "{$fn}.php");
+} else if (!isset($_SESSION["us"]) || $_SESSION["us"] == null || $_SESSION["tm"] < time() - 900) {
+    session_destroy();
+    print "<p>ちゃんとログオンしてね！<br>
+    <a href='/?fn=gz_logon'>ログオン</a></p>";
 } else {
-    if ($fn == "gz_logon") {
-        require($php_path . DIRECTORY_SEPARATOR . "gz_logon.php");
-    } else if ($fn == "gz_logon2") {
-        require($php_path . DIRECTORY_SEPARATOR . "{$fn}.php");
-    } else if (!isset($_SESSION["us"]) || $_SESSION["us"] == null || $_SESSION["tm"] < time() - 900) {
-        session_destroy();
-        print "<p>ちゃんとログオンしてね！<br>
-               <a href='/?fn=gz_logon'>ログオン</a></p>";
-    } else {
-        $_SESSION["tm"] = time(); // タイムアウトの管理
+    $_SESSION["tm"] = time(); // タイムアウトの管理
 
-        require($php_path . DIRECTORY_SEPARATOR . "{$fn}.php");
-    }
+    require($php_path . DIRECTORY_SEPARATOR . "{$fn}.php");
 }

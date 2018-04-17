@@ -8,7 +8,7 @@
     <p class='title_pink'>たび写真館</p>
 
 <?php
-if (!isset($_COOKIE['gz_user'])) {
+if (isset($_COOKIE['gz_user'])) {
     print "<p>{$_COOKIE['gz_user']}さんは前回{$_COOKIE['gz_date']}に利用しています。";
     $gu = $_COOKIE['gz_user'];
 } else {

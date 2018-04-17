@@ -19,7 +19,7 @@ $page = htmlspecialchars($_GET['page'], ENT_QUOTES);
     <p>送信できるのは1MBまでのJPEG画像だけです！<br>
     また展開後のメモリ消費が多い場合アップロードできません。<br>
     <input type='submit' value='送信'><br>
-    <a href='/?fn=gz'>一覧表示へ</a></p>
+    <a href='/?fn=gz&page=<?php print $page; ?>'>一覧表示へ</a></p>
 </form>
 
 </body>

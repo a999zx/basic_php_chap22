@@ -32,7 +32,11 @@ function print_pager($now, $max, $visible) {
 
 $contents = 50; // 1ページあたりの表示数
 $visible_pages = 3; //前後nページのリンクを表示する
-$pager_ps = $db->query("SELECT COUNT(*) AS n FROM table1 WHERE ope = 1"); // 全体の投稿数
+if ($_SESSION["us"] === "admin") {
+    $pager_ps = $db->query("SELECT COUNT(*) AS n FROM table1"); // 全体の投稿数
+} else {
+    $pager_ps = $db->query("SELECT COUNT(*) AS n FROM table1 WHERE ope = 1"); // 全体の投稿数（非公開除く）
+}
 $all_contents = $pager_ps->fetch()["n"];
 $all_pages = $all_contents % $contents === 0 ? (int)($all_contents / $contents) : (int)($all_contents / $contents) + 1; //全体のページ数
 if ($page == "" || preg_match("/[^0-9]/", $page)) {

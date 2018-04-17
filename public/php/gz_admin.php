@@ -19,8 +19,8 @@ print_pager($page, $all_pages, $visible_pages);
 $ps = $db->query("SELECT * FROM table1 ORDER BY ban DESC LIMIT $start, $contents");
 $conts = $ps->fetchAll();
 $ps_ii = $db->query("SELECT DISTINCT * FROM table4
-                     WHERE {$conts[0]["ban"]} >= ban
-                     and ban >= {$conts[$contents - 1]["ban"]} ORDER BY ban DESC");
+                     WHERE " . reset($conts)["ban"] . " >= ban
+                     and ban >= " . end($conts)["ban"] . " ORDER BY ban DESC");
 foreach ($conts as $r) {
     $tg = $r['gaz'];
     $tb = $r['ban'];

@@ -12,12 +12,14 @@ require($db_path . DIRECTORY_SEPARATOR . "db_init.php"); // データベース�
 $fn = htmlspecialchars($_GET["fn"], ENT_QUOTES);
 $request_uri = htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES);
 $phpfilelist = array_map("basename", glob($php_path . DIRECTORY_SEPARATOR . "*.php"));
-if ($request_uri != "/" && !preg_match("/\/\?fn=.*/", $request_uri)) { // 不正なURLを除外
+if (($request_uri != "/" && !preg_match("/\/\?fn=.*/", $request_uri)) // 不正なURLを除外
+    || ($request_uri != "/" && !in_array("{$fn}.php", $phpfilelist)) // 存在しないファイル(.php)へのアクセスを除外
+    || (preg_match("/gz_admin*/", $fn) && $_SESSION["us"] !== "admin")) { // 管理者以外の管理ページへのアクセスを除外
     print "<p>ページが存在しません。<br>
            <a href='/?fn=gz_logon'>ログイン</a></p>";
-} else if (!isset($fn) || $fn == "") { // デフォルトはログイン画面
+} else if ($fn == "") { // デフォルトはログイン画面
     require($php_path . DIRECTORY_SEPARATOR . "gz_logon.php");
-} else if (in_array("{$fn}.php", $phpfilelist)) { // 存在するページ(.php)のみ通す
+} else {
     if ($fn == "gz_logon") {
         require($php_path . DIRECTORY_SEPARATOR . "gz_logon.php");
     } else if ($fn == "gz_logon2") {
@@ -31,7 +33,4 @@ if ($request_uri != "/" && !preg_match("/\/\?fn=.*/", $request_uri)) { // 不正
 
         require($php_path . DIRECTORY_SEPARATOR . "{$fn}.php");
     }
-} else { // 存在しない(.php)ページを除外
-    print "<p>ページが存在しません。<br>
-           <a href='/?fn=gz_logon'>ログイン</a></p>";
 }

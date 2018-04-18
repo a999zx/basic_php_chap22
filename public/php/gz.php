@@ -32,7 +32,7 @@ $pwp->select("SELECT * FROM table1 WHERE ope = 1", $page, $row_count, $all_conte
 $pager = $pwp->getPager($visible_pages);
 print_pager($pager["now"], $pager["all_pages"], $visible_pages);
 
-$conts = $pager["pdos"]->fetchAll();
+$conts = $pager["result"];
 $ps_ii = $db->query("SELECT DISTINCT * FROM table4
                      WHERE " . reset($conts)["ban"] . " >= ban
                      and ban >= " . end($conts)["ban"] . " ORDER BY ban DESC");
